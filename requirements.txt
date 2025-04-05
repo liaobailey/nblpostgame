@@ -1,0 +1,7 @@
+streamlit
+duckdb
+gdown
+plotly
+pandas
+matplotlib
+numpy
