@@ -70,24 +70,29 @@ quarter_chart = {
 
 chrt = pd.DataFrame(quarter_chart, index=['Q1', 'Q2', 'Q3', 'Q4', 'QOT'])
 
+chrt = pd.DataFrame(quarter_chart, index=['Q1', 'Q2', 'Q3', 'Q4', 'QOT'])
+
 gameid = df['GAMEID'].iloc[0]
 # df_adv = adv[adv['GAMEID'] == gameid]
 
 df_adv['off_EFG'] = (df_adv['fgm'] + .5*df_adv['3fgm'])/df_adv['fga']
 df_adv['off_TOV'] = df_adv['tov']/(df_adv['fga'] + df_adv['fta']*.44 + df_adv['tov'])
-df_adv['off_OREB'] = df_adv['off']/(df_adv['off'] + df_adv['def'])
+df_adv['off_OREB'] = df_adv['off']/(df_adv['off'] + df_adv['opp_def'])
+df_adv['off_DREB'] = df_adv['def']/(df_adv['def'] + df_adv['opp_off'])
 df_adv['off_FTR'] = df_adv['ftm']/df_adv['fga']
 df_adv['off_AST'] = df_adv['ast']/df_adv['fgm']
 
 df_adv['def_EFG'] = (df_adv['opp_fgm'] + .5*df_adv['opp_3fgm'])/df_adv['opp_fga']
 df_adv['def_TOV'] = df_adv['opp_tov']/(df_adv['opp_fga'] + df_adv['opp_fta']*.44 + df_adv['opp_tov'])
 df_adv['def_OREB'] = df_adv['opp_off']/(df_adv['opp_off'] + df_adv['def'])
+df_adv['def_DREB'] = df_adv['opp_def']/(df_adv['opp_def'] + df_adv['off'])
 df_adv['def_FTR'] = df_adv['opp_ftm']/df_adv['opp_fga']
 df_adv['def_AST'] = df_adv['opp_ast']/df_adv['opp_fgm']
 
 df_adv['row_number_off_efg'] = df_adv['off_EFG'].rank(method='first', ascending=True).astype(int)
 df_adv['row_number_off_tov'] = df_adv['off_TOV'].rank(method='first', ascending=False).astype(int)
 df_adv['row_number_off_oreb'] = df_adv['off_OREB'].rank(method='first', ascending=True).astype(int)
+df_adv['row_number_off_dreb'] = df_adv['off_DREB'].rank(method='first', ascending=True).astype(int)
 df_adv['row_number_off_ftr'] = df_adv['off_FTR'].rank(method='first', ascending=True).astype(int)
 df_adv['row_number_off_ast'] = df_adv['off_AST'].rank(method='first', ascending=True).astype(int)
 df_adv['row_number_off_rtg'] = df_adv['ORTG'].rank(method='first', ascending=True).astype(int)
@@ -96,6 +101,7 @@ df_adv['row_number_off_rtg'] = df_adv['ORTG'].rank(method='first', ascending=Tru
 df_adv['row_number_def_efg'] = df_adv['def_EFG'].rank(method='first', ascending=False).astype(int)
 df_adv['row_number_def_tov'] = df_adv['def_TOV'].rank(method='first', ascending=True).astype(int)
 df_adv['row_number_def_oreb'] = df_adv['def_OREB'].rank(method='first', ascending=False).astype(int)
+df_adv['row_number_def_dreb'] = df_adv['def_DREB'].rank(method='first', ascending=False).astype(int)
 df_adv['row_number_def_ftr'] = df_adv['def_FTR'].rank(method='first', ascending=False).astype(int)
 df_adv['row_number_def_ast'] = df_adv['def_AST'].rank(method='first', ascending=False).astype(int)
 df_adv['row_number_def_rtg'] = df_adv['DRTG'].rank(method='first', ascending=False).astype(int)
@@ -103,6 +109,7 @@ df_adv['row_number_def_rtg'] = df_adv['DRTG'].rank(method='first', ascending=Fal
 df_adv['percentile_rank_off_efg'] = df_adv['row_number_off_efg'].rank(method='min', pct=True)
 df_adv['percentile_rank_off_tov'] = df_adv['row_number_off_tov'].rank(method='min', pct=True)
 df_adv['percentile_rank_off_oreb'] = df_adv['row_number_off_oreb'].rank(method='min', pct=True)
+df_adv['percentile_rank_off_dreb'] = df_adv['row_number_off_dreb'].rank(method='min', pct=True)
 df_adv['percentile_rank_off_ftr'] = df_adv['row_number_off_ftr'].rank(method='min', pct=True)
 df_adv['percentile_rank_off_ast'] = df_adv['row_number_off_ast'].rank(method='min', pct=True)
 df_adv['percentile_rank_off_rtg'] = df_adv['row_number_off_rtg'].rank(method='min', pct=True)
@@ -110,6 +117,7 @@ df_adv['percentile_rank_off_rtg'] = df_adv['row_number_off_rtg'].rank(method='mi
 df_adv['percentile_rank_def_efg'] = df_adv['row_number_def_efg'].rank(method='min', pct=True)
 df_adv['percentile_rank_def_tov'] = df_adv['row_number_def_tov'].rank(method='min', pct=True)
 df_adv['percentile_rank_def_oreb'] = df_adv['row_number_def_oreb'].rank(method='min', pct=True)
+df_adv['percentile_rank_def_dreb'] = df_adv['row_number_def_dreb'].rank(method='min', pct=True)
 df_adv['percentile_rank_def_ftr'] = df_adv['row_number_def_ftr'].rank(method='min', pct=True)
 df_adv['percentile_rank_def_ast'] = df_adv['row_number_def_ast'].rank(method='min', pct=True)
 df_adv['percentile_rank_def_rtg'] = df_adv['row_number_def_rtg'].rank(method='min', pct=True)
@@ -135,19 +143,25 @@ adv_display.loc[2] = ['Rebounding (OREB%)'
     , df_display['off_OREB'].iloc[0]
     , df_display['def_OREB'].iloc[0]]
 
-adv_display.loc[3] = ['Turnover (TOV%)'
+adv_display.loc[3] = ['Rebounding (DREB%)'
+    , df_display['percentile_rank_off_dreb'].iloc[0]
+    , df_display['percentile_rank_def_dreb'].iloc[0]
+    , df_display['off_DREB'].iloc[0]
+    , df_display['def_DREB'].iloc[0]]
+
+adv_display.loc[4] = ['Turnover (TOV%)'
     , df_display['percentile_rank_off_tov'].iloc[0]
     , df_display['percentile_rank_def_tov'].iloc[0]
     , df_display['off_TOV'].iloc[0]
     , df_display['def_TOV'].iloc[0]]
 
-adv_display.loc[4] = ['Free Throws (FT%)'
+adv_display.loc[5] = ['Free Throws (FT%)'
     , df_display['percentile_rank_off_ftr'].iloc[0]
     , df_display['percentile_rank_def_ftr'].iloc[0]
     , df_display['off_FTR'].iloc[0]
     , df_display['def_FTR'].iloc[0]]
 
-adv_display.loc[5] = ['Assist (AST%)'
+adv_display.loc[6] = ['Assist (AST%)'
     , df_display['percentile_rank_off_ast'].iloc[0]
     , df_display['percentile_rank_def_ast'].iloc[0]
     , df_display['off_AST'].iloc[0]
