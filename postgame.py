@@ -42,6 +42,7 @@ st.header('ZER Postgame Report')
 
 gl['Game Choice'] = gl['DATE'] + ': ' + gl['opp_team']
 gl['WL'] = np.where(gl['win'] == 1, 'W', 'L')
+gl.sort_values('Game Choice', ascending = False, inplace = True)
 games = gl['Game Choice'].unique()
 
 selected_game = st.selectbox("Select a game", games)
